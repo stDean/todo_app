@@ -102,7 +102,7 @@ form button:hover {
 select {
   outline: none;
   border: none;
-  color: skyblue;
+font-weight: 600;
   width: 10rem;
   cursor: pointer;
   padding: 1rem;

@@ -57,7 +57,7 @@ const addTodo = e => {
 
 const deleteOrCheck = e => {
   // get the clicked element i.e the created button
-  const item = event.target;
+  const item = e.target;
 
   if (item.classList[0] === 'delete__button') {
     // if delete button get the parent element i.e the div
@@ -80,6 +80,37 @@ const deleteOrCheck = e => {
     const todo = item.parentElement;
     todo.classList.toggle('completed');
   }
+}
+
+const filterTodo = e => {
+  // get all children of the ul i.e all the created div
+  const todos = todoList.childNodes;
+
+  todos.forEach(ele => {
+    switch (e.target.value) {
+      // if value is all displace all the divs
+      case "all":
+        ele.style.display = 'flex';
+        break;
+
+      // if value is completed displace all the divs that have completed in their class name else display nothing 
+      case "completed":
+        if (ele.classList.contains('completed')) {
+          ele.style.display = 'flex';
+        } else {
+          ele.style.display = 'none';
+        }
+        break;
+
+      case 'uncompleted':
+        if (!ele.classList.contains('completed')) {
+          ele.style.display = 'flex';
+        } else {
+          ele.style.display = 'none';
+        }
+        break;
+    }
+  });
 }
 
 const getTodoFromStorage = () => {
@@ -134,3 +165,4 @@ const getTodos = () => {
 document.addEventListener('DOMContentLoaded', getTodos)
 todoButton.addEventListener('click', addTodo);
 todoList.addEventListener('click', deleteOrCheck);
+filterList.addEventListener('click', filterTodo);
