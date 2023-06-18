@@ -55,6 +55,33 @@ const addTodo = e => {
   todoInput.value = '';
 }
 
+const deleteOrCheck = e => {
+  // get the clicked element i.e the created button
+  const item = event.target;
+
+  if (item.classList[0] === 'delete__button') {
+    // if delete button get the parent element i.e the div
+    const todo = item.parentElement;
+
+    // add a new class to the parent element
+    todo.classList.add('fall');
+
+    // remove the div
+    removeLocalTodo(todo);
+
+    // end the transition effect
+    todo.addEventListener('transitionend', () => {
+      todo.remove();
+    });
+  }
+
+  // if it is the complete bytton get parent element and add a new class to it
+  if (item.classList[0] === 'completed__button') {
+    const todo = item.parentElement;
+    todo.classList.toggle('completed');
+  }
+}
+
 const getTodoFromStorage = () => {
   let todos;
 
@@ -77,6 +104,23 @@ const saveToLocalStorage = todo => {
   localStorage.setItem('todos', JSON.stringify(todos));
 }
 
+// removing the todo from local storage upon deletion
+const removeLocalTodo = todo => {
+  let todos = getTodoFromStorage();
+
+  // get the to-do div first child text i.e the li's text.
+  const todoValue = todo.children[0].innerText;
+
+  // get the index of the text
+  const todoIndex = todos.indexOf(todoValue);
+
+  // remove it from the array
+  todos.splice(todoIndex, 1);
+
+  // set the local storage without the deleted to-do in the todos array
+  localStorage.setItem('todos', JSON.stringify(todos));
+}
+
 // displaying the todos on the page
 const getTodos = () => {
   let todos = getTodoFromStorage();
@@ -89,3 +133,4 @@ const getTodos = () => {
 
 document.addEventListener('DOMContentLoaded', getTodos)
 todoButton.addEventListener('click', addTodo);
+todoList.addEventListener('click', deleteOrCheck);
