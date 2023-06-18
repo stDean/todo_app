@@ -44,6 +44,10 @@ form button:hover {
   color: white;
 }
 
+.fa-plus-square {
+  pointer-events: none;
+}
+
 .todo__container {
   display: flex;
   justify-content: center;
